@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+womens_intermediate_soccer:
   name: Women's Intermediate Soccer
   womens: true
+  equipments: band, bench
 
-two:
+mens_beginner_soccer:
   name: Men's Beginner Soccer
   womens: false
+  equipments: band

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+band:
+  id: 1
+  name: Band
+
+bench:
+  id: 2
+  name: Bench
+
+barbell:
+  id: 3
+  name: Barbell
