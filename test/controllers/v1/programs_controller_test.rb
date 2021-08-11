@@ -24,6 +24,16 @@ module Api
         assert programs(:mens_beginner_soccer).id.in?(program_ids)
         assert programs(:general_hypertrophy).id.in?(program_ids)
       end
+
+      test "programs filtered by sport" do
+        soccer, football = sports(:soccer, :football)
+
+        get api_v1_programs_path(sport_id: 1)
+
+        program_ids = JSON.parse(@response.body).map { |program| program['id'] }
+        refute sports(:soccer).id.in?(program_ids)
+        assert sports(:football).id.in?(program_ids)
+      end
     end
   end
 end
