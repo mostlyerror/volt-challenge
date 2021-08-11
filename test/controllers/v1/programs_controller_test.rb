@@ -14,10 +14,15 @@ module Api
         assert_equal Program.count, JSON.parse(@response.body).size
       end
 
-      test "programs filtered by equipment list" do
-        get api_v1_programs_path(equipment_ids: [1, 2, 3])
-        assert_response :success
-        assert_not_equal Program.count, JSON.parse(@response.body).size
+      test "programs filtered by available equipment list" do
+        band, bench = equipment(:band, :bench)
+
+        get api_v1_programs_path(equipment_ids: [band, bench].map(&:id))
+
+        program_ids = JSON.parse(@response.body).map { |program| program['id'] }
+        refute programs(:womens_intermediate_soccer).id.in?(program_ids)
+        assert programs(:mens_beginner_soccer).id.in?(program_ids)
+        assert programs(:general_hypertrophy).id.in?(program_ids)
       end
     end
   end
