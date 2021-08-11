@@ -3,9 +3,14 @@
 womens_intermediate_soccer:
   name: Women's Intermediate Soccer
   womens: true
-  equipments: band, bench
+  equipments: band
 
 mens_beginner_soccer:
   name: Men's Beginner Soccer
   womens: false
-  equipments: band
+  equipments: band, bench
+
+general_hypertrophy:
+  name: General Hypertrophy
+  womens: false
+  equipments: band, bench, barbell
