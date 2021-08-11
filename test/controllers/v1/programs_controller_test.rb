@@ -13,6 +13,12 @@ module Api
         get api_v1_programs_path
         assert_equal Program.count, JSON.parse(@response.body).size
       end
+
+      test "programs filtered by equipment list" do
+        get api_v1_programs_path(equipment_ids: [1, 2, 3])
+        assert_response :success
+        assert_not_equal Program.count, JSON.parse(@response.body).size
+      end
     end
   end
 end
