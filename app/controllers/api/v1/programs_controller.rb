@@ -12,7 +12,7 @@ module Api
             .having("COUNT(*) >= ?", equipment_ids.size)
             .pluck(:program_id)
           
-          programs = Program.find program_ids
+          programs = Program.where(id: program_ids)
         else
           programs = Program.all
         end
