@@ -35,6 +35,16 @@ module Api
         refute programs(:mens_beginner_football).id.in?(program_ids)
         refute programs(:general_hypertrophy).id.in?(program_ids)
       end
+
+      test "response matches signature in spec" do
+        get api_v1_programs_path
+
+        response = JSON.parse(@response.body)
+
+        %w(id name sport required_equipment).each do |key|
+          assert response.first.keys.include?(key)
+        end
+      end
     end
   end
 end
