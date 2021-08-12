@@ -22,7 +22,7 @@ module Api
           programs = programs.where(sport: sport)
         end
 
-        render json: programs
+        render json:ActiveModel::Serializer::CollectionSerializer.new(programs, each_serializer: ProgramSerializer)
       end
     end
   end
