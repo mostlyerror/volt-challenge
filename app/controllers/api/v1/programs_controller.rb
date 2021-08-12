@@ -17,6 +17,11 @@ module Api
           programs = Program.all
         end
 
+        if params['sport_id']&.present?
+          sport = Sport.find(params['sport_id'])
+          programs = programs.where(sport: sport)
+        end
+
         render json: programs
       end
     end
