@@ -78,7 +78,7 @@ curl -X GET \
 
 ### GET /api/v1/programs?equipment=[]
 Get possible programs based on available equipment
-Note: equipment is randomly assigned to different programs (see db/seeds.rb)
+Note: equipment is randomly assigned to different programs (see [db/seeds.rb](db/seeds.rb))
 ```
 curl -X GET \
   -H "Content-type: application/json" \
@@ -89,7 +89,7 @@ curl -X GET \
 
 ### GET /api/v1/programs?sport_id=X&equipment=[]
 Get programs based on both sport and available equipment
-Note: equipment is randomly assigned to different programs (see db/seeds.rb)
+Note: equipment is randomly assigned to different programs (see [db/seeds.rb](db/seeds.rb))
 ```
 curl -X GET \
   -H "Content-type: application/json" \
