@@ -2,27 +2,22 @@ module Api
   module V1
     class ProgramsController < ApplicationController
       def index
-        if params['equipment_ids']&.present?
-          equipment_ids = params['equipment_ids']
-
-          program_ids = EquipmentProgram
-            .select(:program_id)
-            .where(equipment_id: equipment_ids)
-            .group(:program_id)
-            .having("COUNT(*) >= ?", equipment_ids.size)
-            .pluck(:program_id)
-          
-          programs = Program.where(id: program_ids)
+        if params['sport_id']
+          programs = Program.includes(:equipments).where(sport_id: params['sport_id'].to_i)
         else
-          programs = Program.all
+          programs = Program.includes(:equipments).all
         end
 
-        if params['sport_id']&.present?
-          sport = Sport.find(params['sport_id'])
-          programs = programs.where(sport: sport)
+        equipment_ids = params['equipment_ids'] || []
+        equipment_ids.map!(&:to_i)
+
+        matches = programs.select do |program|
+          required_equipment_ids = program.equipments.pluck(:id)
+          required_equipment_ids & equipment_ids == required_equipment_ids
         end
 
-        render json:ActiveModel::Serializer::CollectionSerializer.new(programs, each_serializer: ProgramSerializer)
+        render json: ActiveModel::Serializer::CollectionSerializer.new(matches,
+          each_serializer: ProgramSerializer)
       end
     end
   end

@@ -9,9 +9,14 @@ module Api
         assert_equal "index", @controller.action_name
       end
 
-      test "no query params returns all programs" do
+      test "no equipment supplied returns only bodyweight programs" do
         get api_v1_programs_path
-        assert_equal Program.count, JSON.parse(@response.body).size
+
+        program_ids = JSON.parse(@response.body).map { |program| program['id'] }
+        refute programs(:womens_intermediate_soccer).id.in?(program_ids)
+        refute programs(:mens_beginner_football).id.in?(program_ids)
+        refute programs(:general_hypertrophy).id.in?(program_ids)
+        assert programs(:lean_mean_bodyweight).id.in?(program_ids)
       end
 
       test "programs filtered by available equipment list" do
@@ -20,17 +25,21 @@ module Api
         get api_v1_programs_path(equipment_ids: [band, bench].map(&:id))
 
         program_ids = JSON.parse(@response.body).map { |program| program['id'] }
-        refute programs(:womens_intermediate_soccer).id.in?(program_ids)
+
+        assert programs(:womens_intermediate_soccer).id.in?(program_ids)
         assert programs(:mens_beginner_football).id.in?(program_ids)
-        assert programs(:general_hypertrophy).id.in?(program_ids)
+        assert programs(:lean_mean_bodyweight).id.in?(program_ids)
+        refute programs(:general_hypertrophy).id.in?(program_ids)
       end
 
-      test "programs filtered by sport" do
+      test "programs filtered by sport, too" do
         soccer, football = sports(:soccer, :football)
+        band, bench = equipment(:band, :bench)
 
-        get api_v1_programs_path(sport_id: soccer.id)
+        get api_v1_programs_path(sport_id: soccer.id, equipment_ids: [band, bench].map(&:id))
 
         program_ids = JSON.parse(@response.body).map { |program| program['id'] }
+
         assert programs(:womens_intermediate_soccer).id.in?(program_ids)
         refute programs(:mens_beginner_football).id.in?(program_ids)
         refute programs(:general_hypertrophy).id.in?(program_ids)
