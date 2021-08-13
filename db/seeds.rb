@@ -74,3 +74,7 @@ if program.nil?
     sport: sports.find {|sp| sp.name == "Football" }
   )
 end
+
+program = Program.find_or_create_by(
+  name: "Lean & Mean: Bodyweight"
+)

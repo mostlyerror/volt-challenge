@@ -16,3 +16,7 @@ general_hypertrophy:
   name: General Hypertrophy
   womens: false
   equipments: band, bench, barbell
+
+lean_mean_bodyweight:
+  name: "Lean & Mean: Bodyweight"
+  womens: false
